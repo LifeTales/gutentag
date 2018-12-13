@@ -20,5 +20,25 @@ describe Gutentag::Tagging, :type => :model do
       tagging.valid?
       expect(tagging.errors[:tag_id].length).to eq(1)
     end
+
+    context "with a parent" do
+      let(:parent) { Article.create! }
+
+      it "ensures tags are unique for any given taggable" do
+        tagging = Gutentag::Tagging.new
+        tagging.tag      = tag
+        tagging.taggable = taggable
+        tagging.parent   = parent
+        tagging.save!
+
+        tagging = Gutentag::Tagging.new
+        tagging.tag      = tag
+        tagging.taggable = taggable
+        tagging.parent   = parent
+
+        tagging.valid?
+        expect(tagging.errors[:tag_id].length).to eq(1)
+      end
+    end
   end
 end

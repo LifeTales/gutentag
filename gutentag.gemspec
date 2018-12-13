@@ -11,8 +11,8 @@ Gem::Specification.new do |s|
   s.description = "A good, simple, solid tagging extension for ActiveRecord"
   s.license     = "MIT"
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {spec}/*`.split("\n")
+  s.files         = `find . -type f`.split("\n")
+  s.test_files    = `find spec -type f`.split("\n")
   s.require_paths = ["lib"]
 
   s.add_runtime_dependency     "activerecord", ">= 3.2.0"

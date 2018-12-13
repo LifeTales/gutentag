@@ -8,12 +8,16 @@ class GutentagTables < superclass
       t.integer :tag_id,        :null => false
       t.integer :taggable_id,   :null => false
       t.string  :taggable_type, :null => false
+      t.integer :parent_id,     :null => true
+      t.string  :parent_type,   :null => true
       t.timestamps :null => false
     end
 
     add_index :gutentag_taggings, :tag_id
+    add_index :gutentag_taggings, %i[ parent_type parent_id ]
     add_index :gutentag_taggings, %i[ taggable_type taggable_id ]
-    add_index :gutentag_taggings, %i[ taggable_type taggable_id tag_id ],
+    add_index :gutentag_taggings,
+      %i[ parent_type parent_id taggable_type taggable_id tag_id ],
       :unique => true, :name => "unique_taggings"
 
     create_table :gutentag_tags do |t|
