@@ -6,9 +6,10 @@ gemspec
 
 gem "test-unit", :platform => :ruby_22
 
-gem "mysql2",  "~> 0.3",  :platform => :ruby
-gem "pg",      "~> 0.18", :platform => :ruby
-gem "sqlite3", "~> 1.3",  :platform => :ruby
+gem "mysql2",      "~> 0.3",  :platform => :ruby
+gem "pg",          "~> 0.18", :platform => :ruby
+gem "sqlite3",     "~> 1.3",  :platform => :ruby
+gem "tzinfo-data", "~> 1.1",  :platform => :ruby
 
 gem "activerecord-jdbcmysql-adapter",      "~> 1.3.23", :platform => :jruby
 gem "activerecord-jdbcpostgresql-adapter", "~> 1.3.23", :platform => :jruby
