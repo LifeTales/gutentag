@@ -1,8 +1,8 @@
 # Gutentag
 
-[![Gem Version](https://badge.fury.io/rb/gutentag.png)](http://badge.fury.io/rb/gutentag)
-[![Build Status](https://travis-ci.org/pat/gutentag.png?branch=master)](https://travis-ci.org/pat/gutentag)
-[![Code Climate](https://codeclimate.com/github/pat/gutentag.png)](https://codeclimate.com/github/pat/gutentag)
+[![Gem Version](https://badge.fury.io/rb/gutentag.svg)](http://badge.fury.io/rb/gutentag)
+[![Build Status](https://travis-ci.org/pat/gutentag.svg?branch=master)](https://travis-ci.org/pat/gutentag)
+[![Code Climate](https://codeclimate.com/github/pat/gutentag.svg)](https://codeclimate.com/github/pat/gutentag)
 
 A good, simple, solid tagging extension for ActiveRecord.
 
@@ -16,6 +16,7 @@ If you want to know more, read [this blog post](http://freelancing-gods.com/post
 * [Installation](#installation)
 * [Upgrading](#upgrading)
 * [Configuration](#configuration)
+* [Extending](#extending)
 * [Contribution](#contribution)
 * [Licence](#licence)
 
@@ -72,15 +73,17 @@ Article.tagged_with(:ids => [tag_a.id, tag_b.id], :match => :all)
 
 These are the versions the test suite runs against. It's possible it may work on older versions of Ruby, but it definitely won't work on older versions of Rails.
 
-* Ruby: MRI v2.2-v2.5, JRuby v9.1
-* Rails/ActiveRecord: v3.2-v5.2
+* Ruby: MRI v2.3-v2.6, JRuby v9.2.5
+* Rails/ActiveRecord: v4.0-v6.0
+
+If you're using MRI v2.2 and/or ActiveRecord v3.2, the last version of Gutentag that fully supported those versions is v2.4.1.
 
 ### Installing
 
 Get it into your Gemfile - and don't forget the version constraint!
 
 ```Ruby
-gem 'gutentag', '~> 2.4'
+gem 'gutentag', '~> 2.5'
 ```
 
 Next: your tags get persisted to your database, so let's import and run the migrations to get the tables set up:
@@ -148,6 +151,19 @@ Gutentag.normaliser = lambda { |value| value.to_s.upcase }
 ### Case-sensitive tags
 
 Gutentag ignores case by default, but can be customised to be case-sensitive by supplying your own validations and normaliser, as outlined by [Robin Mehner](https://github.com/rmehner) in [issue 42](https://github.com/pat/gutentag/issues/42). Further changes may be required for your schema though, depending on your database.
+
+<h2 id="extending">Extending</h2>
+
+If you need to extend Gutentag's models, you will need to wrap the `include` inside a `to_prepare` hook to ensure it's loaded consistently in all Rails environments:
+
+```ruby
+# config/initializers/gutentag.rb or equivalent
+Rails.application.config.to_prepare do
+  Gutentag::Tag.include TagExtensions
+end
+```
+
+Further discussion and examples of this can be found in [issue 65](https://github.com/pat/gutentag/issues/65).
 
 <h2 id="contribution">Contribution</h2>
 

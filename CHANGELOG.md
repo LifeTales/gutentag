@@ -2,6 +2,41 @@
 
 All notable changes to this project (at least, from v0.5.0 onwards) will be documented in this file.
 
+## 2.5.2 - 2019-07-08
+
+### Fixed
+
+* `tag_names` will no longer be referenced as a database column when tagged models are requested in joins in Rails 4.2 (as reported in [issue #67](https://github.com/pat/gutentag/issues/67)).
+
+## 2.5.1 - 2019-05-10
+
+### Fixed
+
+* Ensuring consistent behaviour for tag_names array - names are not duplicated, and are normalised prior to saving (as discussed in [issue #66](https://github.com/pat/gutentag/issues/66)).
+
+## 2.5.0 - 2019-03-15
+
+**Please note this release ends official support of Rails 3.2 and Ruby (MRI) 2.2.** The code currently still works on Ruby 2.2, and all features except for the new `Gutentag::Tag.names_for_scope` method work in Rails 3.2, but they're no longer tested against, and cannot be guaranteed to work in future releases.
+
+### Added
+
+* Added the `Gutentag::Tag.names_for_scope(scope)` method, which accepts an ActiveRecord model or a relation, and returns all tag names associated to that model/relation.
+
+### Changed
+
+* Removing support for MRI 2.2 and Rails 3.2.
+
+## 2.4.1 - 2019-02-22
+
+### Changed
+
+* Tests are now run against Rails 6.0, MRI 2.6, JRuby 9.2.5.
+* The README documents a simpler migration ([seelensonne](https://github.com/seelensonne) in [#55](https://github.com/pat/gutentag/pull/55)).
+
+### Fixed
+
+* Do not record changes when tag_names did not change ([Stephen Oberther](https://github.com/smo921) in [#60](https://github.com/pat/gutentag/pull/60)).
+
 ## 2.4.0 - 2018-05-18
 
 ### Changed

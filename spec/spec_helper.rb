@@ -4,12 +4,16 @@ require "bundler/setup"
 
 Bundler.require :default, :development
 
+Dir["#{__dir__}/support/**/*.rb"].each { |file| require file }
+
 Combustion.initialize! :active_record
 ActiveSupport.run_load_hooks :gutentag unless defined?(Gutentag::Engine)
 
 require "rspec/rails"
 
 RSpec.configure do |config|
+  config.disable_monkey_patching!
+
   if config.respond_to?(:use_transactional_tests)
     config.use_transactional_tests = false
   else

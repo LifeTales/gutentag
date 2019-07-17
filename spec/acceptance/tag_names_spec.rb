@@ -2,7 +2,7 @@
 
 require "spec_helper"
 
-describe "Managing tags via names" do
+RSpec.describe "Managing tags via names" do
   let(:article) { Article.create }
 
   it "returns tag names" do
@@ -70,6 +70,13 @@ describe "Managing tags via names" do
     expect(article.tags.collect(&:name)).to eq(%w[ portland oregon ruby ])
   end
 
+  it "does not repeat appended names that exist in the array of strings" do
+    article.tag_names  = %w[ portland oregon ]
+    article.tag_names += %w[ oregon ruby ]
+
+    expect(article.tag_names).to match(%w[ portland oregon ruby ])
+  end
+
   it "removes a single tag name" do
     article.tag_names = %w[ portland oregon ]
     article.tag_names.delete "oregon"
@@ -99,6 +106,11 @@ describe "Managing tags via names" do
     expect(article.tags.collect(&:name)).to eq(%w[ portland ])
   end
 
+  it "normalises tag names" do
+    article.tag_names = %w[ Perth ]
+    expect(article.tag_names).to eq(%w[ perth ])
+  end
+
   it "allows setting of tag names on unpersisted objects" do
     article = Article.new :tag_names => %w[ melbourne pancakes ]
     article.save!
@@ -122,5 +134,9 @@ describe "Managing tags via names" do
     article.save!
 
     expect(article.tag_names).to eq(%w[ melbourne ])
+  end
+
+  it "allows eager-loading of the model via an association" do
+    expect { Comment.eager_load(:article).to_a }.to_not raise_error
   end
 end
